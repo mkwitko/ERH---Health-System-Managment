@@ -1,0 +1,6 @@
+{
+	"appId": "io.ionic.starter",
+	"appName": "ionic-firebase-template",
+	"webDir": "www",
+	"bundledWebRuntime": false
+}
