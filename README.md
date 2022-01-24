@@ -1,5 +1,3 @@
-#IONIC-FIREBASE-INITIAL-TEMPLATE#
-
 This repository is a initial template of an ionic blank application with firebase dependencies installed and configured.
 
 Ready to use.
