@@ -8,6 +8,6 @@ Our package.json is already updated with the most recents versions of the plugin
 
 To make use of this repository, you need to create your firebase project and config your variables in the src/environmets/configFirebase file.
 
-We already created an auth service with many funcionalities ready to production.
+We already created an auth service, a crud and a simple upload/delete to firebase storage system.
 
 Enjoy (:
