@@ -4,19 +4,21 @@ import { FormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
-import { TermsPageRoutingModule } from './terms-routing.module';
+import { RegisterPageRoutingModule } from './register-routing.module';
 
-import { TermsPage } from './terms.page';
+import { RegisterPage } from './register.page';
 import { HeaderCustomModule } from 'src/app/components/header/header-custom/header-custom.module';
+import { FormCustomModule } from 'src/app/components/forms/form-custom/form-custom.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    TermsPageRoutingModule,
-    HeaderCustomModule
+    RegisterPageRoutingModule,
+    HeaderCustomModule,
+    FormCustomModule
   ],
-  declarations: [TermsPage]
+  declarations: [RegisterPage]
 })
-export class TermsPageModule {}
+export class RegisterPageModule {}

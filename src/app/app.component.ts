@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from './services/firebase/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,19 @@ import { Component } from '@angular/core';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
-  constructor() {}
+
+  public menuBool = true;
+
+  constructor(
+    private auth: AuthService
+  ) 
+  {
+    this.auth.getAuth().onAuthStateChanged(user => {
+      this.menuBool = !user;
+    });
+  }
+
+  logout(){
+    this.auth.callLogout();
+  }
 }

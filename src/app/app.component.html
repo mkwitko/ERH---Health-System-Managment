@@ -1,3 +1,21 @@
 <ion-app>
-  <ion-router-outlet></ion-router-outlet>
+  <ion-split-pane contentId="menu-content" when="xl" [disabled]="menuBool">
+    <ion-menu class="side-menu-gradient" contentId="menu-content">
+
+     <ion-header>
+       <ion-toolbar color="dark"></ion-toolbar>
+     </ion-header>
+
+
+     <ion-footer>
+      <ion-toolbar color="danger">
+        <ion-button (click)="logout()" color="transparent" fill="clear" expand="full">
+          <ion-label color="light">LOGOUT</ion-label>
+        </ion-button>
+      </ion-toolbar>
+    </ion-footer>
+
+    </ion-menu>
+    <ion-router-outlet id="menu-content"></ion-router-outlet>
+  </ion-split-pane>
 </ion-app>

@@ -1,15 +1,13 @@
-import { HeaderCustomModule } from 'src/app/components/header/header-custom/header-custom.module';
-import { TranslateModule } from '@ngx-translate/core';
 import { NgModule } from '@angular/core';
-
-import { IonicModule } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+
+import { IonicModule } from '@ionic/angular';
 
 import { LoginPageRoutingModule } from './login-routing.module';
 
 import { LoginPage } from './login.page';
-import { SharedModule } from 'src/app/modules/shared/shared.module';
+import { HeaderCustomModule } from 'src/app/components/header/header-custom/header-custom.module';
 
 @NgModule({
   imports: [
@@ -17,8 +15,7 @@ import { SharedModule } from 'src/app/modules/shared/shared.module';
     FormsModule,
     IonicModule,
     LoginPageRoutingModule,
-    HeaderCustomModule,
-    TranslateModule
+    HeaderCustomModule
   ],
   declarations: [LoginPage]
 })

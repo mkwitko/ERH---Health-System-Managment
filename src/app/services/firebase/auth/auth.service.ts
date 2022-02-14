@@ -17,6 +17,7 @@ import { AllowToPassService } from '../../allow-to-pass/allow-to-pass.service';
 import { MenuControlService } from '../../screen-effects/menu-control.service';
 import { GlobalizationService } from '../../globalization/globalization.service';
 import { NavigationService } from '../../navigation/navigation.service';
+import { UserRegistration } from 'src/app/interfaces/auth/user-registration';
 
 @Injectable({
   providedIn: 'root'
@@ -106,12 +107,16 @@ export class AuthService {
     });
   }
 
-  private async register(user: User){
+  private async register(user: UserRegistration){
     if(this.allow.guardian(
-      [user.userEmail, user.userPassword]
+      [user.userEmail, user.userPassword, user.userName]
     ))
     {
+      console.log(user);
       createUserWithEmailAndPassword(this.auth, user.userEmail.trim(), user.userPassword.trim())
+      .then(() => {
+        this.navigation.callGoBack();
+      })
       .catch((error) => {
         this.screenService.presentErrorToast(error);
       });
