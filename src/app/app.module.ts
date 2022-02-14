@@ -21,6 +21,7 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 //HTTP
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { HeaderCustomModule } from './components/header/header-custom/header-custom.module';
+import { ClassesModule } from './modules/classes/class/class.module';
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function HttpLoaderFactory(http: HttpClient) {
@@ -40,8 +41,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
     AngularFireStorageModule,
+
     // Cache System
     IonicStorageModule.forRoot(),
+
     //Globalization
     TranslateModule.forRoot({
       defaultLanguage: 'pt',
@@ -55,7 +58,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     //HTTP
     HttpClientModule,
 
-    HeaderCustomModule
+    HeaderCustomModule,
+    ClassesModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

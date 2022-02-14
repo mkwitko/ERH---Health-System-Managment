@@ -16,6 +16,7 @@ export class FormCustomComponent{
   @Input() collection: AngularFirestoreCollection;
   @Input() myFunction;
   @Input() ref;
+  @Input() register;
 
   constructor(
     private allow: AllowToPassService,
@@ -35,6 +36,7 @@ export class FormCustomComponent{
       {
         // Send to database fields
         const send = this.myFunction(this.fields);
+        console.log(send);
 
         // if has photo
         if(send.logo){
