@@ -1,0 +1,24 @@
+<ion-content>
+  <div class="container">
+    <p class="ion-text-center ion-margin-top">
+      <img class="ion-padding logo" src="../../../assets/img/docke.png" alt="">
+    </p>
+    <h2 class="ion-text-center">{{'forgot.title' | translate }}</h2>
+    <ion-grid>
+      <ion-row>
+        <ion-col offset="4" size="4">
+          <ion-item>
+            <ion-label position="floating">{{'forgot.email' | translate}}</ion-label>
+            <ion-input type="email" [(ngModel)]="recoveryEmail"></ion-input>
+          </ion-item>
+          <ion-button (click)="sendRessetPassword()" class="ion-margin-top" color="primary">
+            {{'forgot.send' | translate }}
+          </ion-button>
+          <ion-button (click)="returnLogin()" fill="clear" class="ion-margin-top" style="float: right;">
+            {{'forgot.back' | translate }}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

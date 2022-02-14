@@ -1,0 +1,49 @@
+<ion-list class="ion-margin">
+  <ng-container *ngFor="let item of fields">
+    <ion-item *ngIf="!item.check && !item.select" class="ion-margin-top">
+
+              <!-- Required item -->
+        <ion-label *ngIf="item.required" position="{{item.position}}">{{item.name}} *</ion-label>
+              <!-- Non Required Item-->
+        <ion-label *ngIf="!item.required" position="{{item.position}}">{{item.name}} </ion-label>
+
+              <!-- Item has accept property -->
+        <ion-input  *ngIf="item.accept" accept="{{item.accept}}" required={{item.required}} type={{item.type}} (change)="pickFile($event, item)" name="teste"></ion-input>
+              <!-- Item hasn't accept property -->
+        <ion-input *ngIf="!item.accept" required={{item.required}} type={{item.type}} [(ngModel)]="item.answer"  name="teste"></ion-input>
+
+    </ion-item>
+
+          <!-- Checkbox -->
+    <ion-item *ngIf="item.check === true">
+      <ion-checkbox (ionChange)="checkBox($event, item)"></ion-checkbox>
+          <!-- Required item -->
+      <ion-label *ngIf="item.required" class="ion-margin-start">{{item.name}} *</ion-label>
+          <!-- Non Required Item-->
+      <ion-label *ngIf="!item.required" class="ion-margin-start">{{item.name}}</ion-label>
+    </ion-item>
+
+          <!-- Select input -->
+    <ion-item *ngIf="item.select === true">
+
+          <!-- Required item -->
+      <ion-label *ngIf="item.required">{{item.name}} *</ion-label>
+          <!-- Non Required item -->
+      <ion-label *ngIf="!item.required">{{item.name}}</ion-label>
+
+        <ion-select [(ngModel)]="item.answer" multiple="{{item.multiple}}" placeholder="{{item.placeholder}}">
+          <ng-container *ngFor="let a of item.options">
+            <ion-select-option value={{a}}>{{a}}</ion-select-option>
+          </ng-container>
+        </ion-select>
+    </ion-item>
+
+
+  </ng-container>
+
+  <p class="button ion-margin">
+    <ion-button (click)="submit()">
+      <ion-label color="light">Enviar</ion-label>
+    </ion-button>
+  </p>
+</ion-list>

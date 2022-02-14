@@ -1,6 +1,6 @@
-import { Injectable } from '@angular/core';
-import { AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { Injectable } from '@angular/core';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { map } from 'rxjs';
 import { ScreenService } from '../../screen-effects/screen.service';
 
@@ -10,11 +10,27 @@ import { ScreenService } from '../../screen-effects/screen.service';
 export class CrudService {
 
   constructor(
-    private afs: AngularFireStorage,
+    private afs: AngularFirestore,
+    private afst: AngularFireStorage,
     private screen: ScreenService
-  ) { }
+  )
+  {}
 
-  getAll(collection: AngularFirestoreCollection){
+
+  callCollectionConstructor<T>(name){
+    return this.collectionConstructor<T>(name);
+  }
+
+  private collectionConstructor<T>(name){
+    return this.afs.collection<T>(name);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  callGetAll(collection: AngularFirestoreCollection){
+    return this.getAll(collection);
+  }
+
+  private getAll(collection: AngularFirestoreCollection){
     return collection.snapshotChanges().pipe(
       map(actions => actions.map(a => {
           const data = a.payload.doc.data();
@@ -24,36 +40,65 @@ export class CrudService {
     );
    }
 
-   get<T>(collection: AngularFirestoreCollection, yourInterface: T, id: string){
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+  callGet<T>(collection: AngularFirestoreCollection, yourInterface: T, id: string) {
+    return this.get(collection, yourInterface, id);
+  }
+
+   private get<T>(collection: AngularFirestoreCollection, yourInterface: T, id: string){
      return collection.doc<typeof yourInterface>(id).valueChanges();
    }
 
-   add<T>(collection: AngularFirestoreCollection, yourAsset: T){
+   // eslint-disable-next-line @typescript-eslint/member-ordering
+   callAdd<T>(collection: AngularFirestoreCollection, yourAsset: T): Promise<any>{
+     return this.add(collection, yourAsset);
+   }
+
+   private add<T>(collection: AngularFirestoreCollection, yourAsset: T){
      return collection.add(yourAsset);
    }
 
-   update<T>(collection: AngularFirestoreCollection, yourInterface: T, yourAsset: T, id: string){
-     return collection.doc<typeof yourInterface>(id).update(yourAsset);
+   // eslint-disable-next-line @typescript-eslint/member-ordering
+   callUpdate<T>(collection: AngularFirestoreCollection, yourAsset: T, id: string){
+    this.update(collection, yourAsset, id);
    }
 
-   delete(collection: AngularFirestoreCollection, id: string){
+   private update<T>(collection: AngularFirestoreCollection, yourAsset: T, id: string){
+     return collection.doc<any>(id).update(yourAsset);
+   }
+
+   // eslint-disable-next-line @typescript-eslint/member-ordering
+   callDelete(collection, id){
+     this.delete(collection, id);
+   }
+
+   private delete(collection: AngularFirestoreCollection, id: string){
      return collection.doc(id).delete();
    }
 
-   async uploadFileStorage(file: string, id: string, folder: string): Promise<any>
+   // eslint-disable-next-line @typescript-eslint/member-ordering
+   callUploadFileStorage(file, id, folder): Promise<any>{
+     return this.uploadFileStorage(file,id,folder);
+   }
+
+   private async uploadFileStorage(file, id: string, folder: string): Promise<any>
    {
      if(file && file.length){
        try {
-         const task = await this.afs.ref(folder).child(id).put(file[0]);
-         return this.afs.ref(folder + '/' + id).getDownloadURL().toPromise();
+         const task = await this.afst.ref(folder).child(id).put(file[0]);
+         return this.afst.ref(folder + '/' + id).getDownloadURL().toPromise();
        } catch (error){
-         console.error(error);
        }
      }
    }
 
-   async deleteFileStorage(fileRef: string){
-    const ref = this.afs.refFromURL(fileRef);
+   // eslint-disable-next-line @typescript-eslint/member-ordering
+   callDeleteFileStorage(fileRef){
+     this.deleteFileStorage(fileRef);
+   }
+
+   private async deleteFileStorage(fileRef: string){
+    const ref = this.afst.refFromURL(fileRef);
     await this.screen.presentLoading();
     try {
       await ref.delete();

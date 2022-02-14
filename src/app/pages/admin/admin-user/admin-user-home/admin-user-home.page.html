@@ -1,0 +1,29 @@
+<app-header-custom-back url="admin"></app-header-custom-back>
+
+<ion-content>
+
+  <ng-container *ngIf="!myClass.getData">
+    <app-skeleton-card></app-skeleton-card>
+  </ng-container>
+
+  <ng-container *ngIf="myClass.getData">
+    <app-skeleton-card *ngIf="myClass.getData.length === 0"></app-skeleton-card>
+
+    <ng-container *ngIf="myClass.getData.length > 0">
+      <ion-grid>
+        <ion-row>
+          <ng-container *ngFor="let item of myClass.cardData">
+            <ion-col size="6">
+              <app-card-path
+              [cardPath]="item"
+            ></app-card-path>
+            </ion-col>
+          </ng-container>
+        </ion-row>
+      </ion-grid>
+    </ng-container>
+  </ng-container>
+
+  <app-fab-bottom-right url="admin-user-register"></app-fab-bottom-right>
+
+</ion-content>

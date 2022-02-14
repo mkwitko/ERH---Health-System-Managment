@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Capacitor } from '@capacitor/core';
 import { initializeApp } from 'firebase/app';
 import { environment } from 'src/environments/environment';
+import { User } from 'src/app/interfaces/auth/user';
+import { ScreenService } from '../../screen-effects/screen.service';
 
 import { indexedDBLocalPersistence,
   initializeAuth,
@@ -11,9 +13,10 @@ import { indexedDBLocalPersistence,
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
   sendPasswordResetEmail  } from 'firebase/auth';
-import { User } from 'src/app/interfaces/auth/user';
-import { from } from 'rxjs';
-
+import { AllowToPassService } from '../../allow-to-pass/allow-to-pass.service';
+import { MenuControlService } from '../../screen-effects/menu-control.service';
+import { GlobalizationService } from '../../globalization/globalization.service';
+import { NavigationService } from '../../navigation/navigation.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,10 +25,15 @@ export class AuthService {
 
   private readonly auth: Auth;
 
-  constructor()
+  constructor(
+    private screenService: ScreenService,
+    private allow: AllowToPassService,
+    private menuCtrl: MenuControlService,
+    private globalization: GlobalizationService,
+    private navigation: NavigationService
+  )
   {
     const firebaseApp = initializeApp(environment.firebase);
-
     if (Capacitor.isNativePlatform()) {
       initializeAuth(firebaseApp, {
         persistence: indexedDBLocalPersistence
@@ -34,27 +42,110 @@ export class AuthService {
     this.auth = getAuth(firebaseApp);
   }
 
-  login(user: User){
-    return from(signInWithEmailAndPassword(this.auth, user.userEmail.trim(), user.userPassword.trim()));
+  callLogin(user: User){
+    this.login(user);
   }
 
-  loginAnon(){
-    return from(signInAnonymously(this.auth));
+  callLoginAnon(){
+    this.loginAnon();
   }
 
-  logout(){
-    return from(this.auth.signOut());
+  callLogout(){
+    this.logout();
+  }
+
+  callGetUser(){
+    this.getUser();
   }
 
   getAuth(){
     return this.auth;
   }
 
-  register(user: User){
-    return from(createUserWithEmailAndPassword(this.auth, user.userEmail.trim(), user.userPassword.trim()));
+  callRegister(user: User){
+    this.register(user);
   }
 
-  resetPassword(email: string){
-    return from(sendPasswordResetEmail(this.auth, email.trim()));
+  async callResetPassword(email: string): Promise<any>{
+    this.resetPassword(email);
+  }
+
+  private async login(user: User){
+    if(this.allow.guardian([
+      user.userEmail, user.userPassword]))
+    {
+      signInWithEmailAndPassword(this.auth, user.userEmail.trim(), user.userPassword.trim())
+      .then(() =>{
+        this.menuCtrl.callMenuCtrl(true);
+      })
+      .catch((error) => {
+        this.screenService.presentErrorToast(error);
+      });;
+    } else {
+      this.screenService.presentToast(
+        this.globalization.translateMessage('login.error.empty-fields')
+      );
+    }
+  }
+
+  private async loginAnon(){
+    signInAnonymously(this.auth)
+    .then(() =>{
+      this.menuCtrl.callMenuCtrl(true);
+    })
+    .catch((error) => {
+      this.screenService.presentErrorToast(error);
+    });;
+  }
+
+  private async logout(){
+    this.menuCtrl.callMenuCtrl(false);
+    this.auth.signOut()
+    .catch((error) => {
+      this.screenService.presentErrorToast(error);
+    });
+  }
+
+  private async register(user: User){
+    if(this.allow.guardian(
+      [user.userEmail, user.userPassword]
+    ))
+    {
+      createUserWithEmailAndPassword(this.auth, user.userEmail.trim(), user.userPassword.trim())
+      .catch((error) => {
+        this.screenService.presentErrorToast(error);
+      });
+    } else {
+      this.screenService.presentToast('Preencha os campos.');
+    }
+  }
+
+  private async resetPassword(email: string){
+    if(this.allow.guardian(
+      [email]
+    ))
+    {
+      sendPasswordResetEmail(this.auth, email.trim())
+      .then((result) => {
+        this.screenService.presentToast(
+          this.globalization.translateMessage('forgot.email-sent') + email
+        );
+        this.navigation.callGoBack();
+      })
+      .catch((error) => {
+        console.log(error.code);
+      this.screenService.presentToast(
+        this.globalization.translateMessage('forgot.error.' + error.code)
+      );
+    });
+    } else {
+      this.screenService.presentToast(
+        this.globalization.translateMessage('forgot.error.email')
+      );
+    }
+  }
+
+  private async getUser(){
+    return await this.auth.currentUser;
   }
 }

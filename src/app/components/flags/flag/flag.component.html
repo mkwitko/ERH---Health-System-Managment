@@ -1,0 +1,11 @@
+<ng-container *ngIf="langs">
+  <ion-buttons *ngIf="langs.length > 0" slot="end">
+    <ng-container *ngFor="let item of langs">
+      <ion-chip  button (click)="changeLang(item)" color="primary" outline="true">
+        <ion-avatar class="ion-margin">
+          <img [src]="item.img" />
+        </ion-avatar>
+      </ion-chip>
+    </ng-container>
+  </ion-buttons>
+</ng-container>

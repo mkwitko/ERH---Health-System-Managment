@@ -1,0 +1,30 @@
+<ng-container *ngIf="cardPath">
+
+  <ion-card button (click)="changePage(cardPath.path)">
+
+    <ion-card-header>
+
+      <ion-card-subtitle *ngIf="cardPath.subtitle">
+        {{cardPath.subtitle}}
+      </ion-card-subtitle>
+
+      <ion-card-title *ngIf="cardPath.title">
+        {{cardPath.title}}
+      </ion-card-title>
+
+    </ion-card-header>
+
+    <ion-card-content>
+      <p *ngIf="cardPath.content">{{cardPath.content}}</p>
+
+      <p *ngIf="cardPath.image">
+        <ion-avatar class="float-right ion-margin-top">
+          <img src="{{cardPath.image}}"/>
+        </ion-avatar>
+      </p>
+    </ion-card-content>
+
+  </ion-card>
+
+
+</ng-container>

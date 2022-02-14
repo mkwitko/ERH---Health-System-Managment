@@ -1,17 +1,19 @@
 import { Injectable } from '@angular/core';
 import { LoadingController, ToastController } from '@ionic/angular';
+import { TranslateMessageService } from '../variables-management/translate-message.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ScreenService {
 
+  public loading;
+
   constructor(
     private loadingController: LoadingController,
-    private toastController: ToastController
+    private toastController: ToastController,
+    private translate: TranslateMessageService
   ) { }
-
-  public loading;
 
   public async presentLoading() {
     this.loading = await this.loadingController.create({
@@ -21,10 +23,23 @@ export class ScreenService {
   }
 
   public async presentToast(message: string, durationNew?: number) {
-    var durationFinal = 5000;
+    let durationFinal = 5000;
     if(durationNew){
       durationFinal = durationNew;
     }
+    const toast = await this.toastController.create({
+      message,
+      duration: durationFinal
+    });
+    toast.present();
+  }
+
+  public async presentErrorToast(error: string, durationNew?: number) {
+    let durationFinal = 5000;
+    if(durationNew){
+      durationFinal = durationNew;
+    }
+    const message = this.translate.callVerifyErrors(error);
     const toast = await this.toastController.create({
       message,
       duration: durationFinal
