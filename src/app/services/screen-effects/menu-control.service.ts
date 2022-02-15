@@ -17,4 +17,8 @@ export class MenuControlService {
   private menuCtrl(bool: boolean){
     this.menuControl.enable(bool);
   }
+
+  callMenuClose(){
+    this.menuControl.close();
+  }
 }

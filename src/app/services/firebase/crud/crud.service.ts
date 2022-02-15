@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/compat/firestore';
 import { map } from 'rxjs';
 import { ScreenService } from '../../screen-effects/screen.service';
+import { UserRegistration } from 'src/app/interfaces/auth/user-registration';
 
 @Injectable({
   providedIn: 'root'
@@ -107,5 +108,20 @@ export class CrudService {
       this.screen.presentToast(error.message);
       this.screen.loading.dismiss();
     }
+  }
+
+  callAddClientToDb(object: UserRegistration, uid, collection: AngularFirestoreCollection){
+    this.addClientToDb(object, uid, collection);
+  }
+
+  private addClientToDb(object: UserRegistration, uid, collection: AngularFirestoreCollection){
+    return collection.doc(uid).set({
+      userName: object.userName,
+      userTelephone: object.userTelephone,
+      userEmail: object.userEmail,
+      userId: uid,
+      role: object.role,
+      createdAt: object.createdAt
+    });
   }
 }

@@ -4,11 +4,48 @@
 <ion-content>
 
   <div class="container">
-    <app-form-custom
-    [fields]="myClass.fields"
-    [collection]="myClass.collection"
-    [myFunction]="myClass.call"
-    [ref]="myClass.ref">></app-form-custom>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-card class="ion-padding-start ion-padding-end">
+            <ion-item>
+              <ion-label position="floating">Nome Completo*</ion-label>
+              <ion-input type="email" [(ngModel)]="userRegister.userName" mode="ios" autocomplete="off" clearOnEdit="true" value=""></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">E-mail*</ion-label>
+              <ion-input type="email" [(ngModel)]="userRegister.userEmail" mode="ios" autocomplete="off" clearOnEdit="true" value=""></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Telefone</ion-label>
+              <ion-input type="email" [(ngModel)]="userRegister.userTelephone" mode="ios" autocomplete="off" clearOnEdit="true" value=""></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Senha*</ion-label>
+              <ion-input type="password" [(ngModel)]="userRegister.userPassword" mode="ios" autocomplete="off" clearOnEdit="true"></ion-input>
+            </ion-item>
+            <ion-item>
+              <ion-label position="floating">Confirme sua senha*</ion-label>
+              <ion-input type="password" [(ngModel)]="userRegister.userConfirmPassword" mode="ios" autocomplete="off" clearOnEdit="true"></ion-input>
+            </ion-item>
+            <ion-button (click)="register()" class="ion-margin-top" color="primary" expand="block">
+              <ion-label color="light">Registrar</ion-label>
+            </ion-button>
+            <ion-button (click)="goToLogin()" class="ion-margin-top" color="light" expand="block">
+              <ion-label color="primary">Voltar</ion-label>
+            </ion-button>
+            <ion-item lines="none" class="ion-margin-top">
+              <ion-checkbox (ionChange)="changeInputCheck($event, acceptPrivacy)"></ion-checkbox>
+              <p class="ion-margin-start p-text">LI E ACEITO A <a href='privacy'>POLÍTICA DE PRIVACIDADE DE DADOS</a></p>
+            </ion-item>
+            <ion-item lines="none">
+              <ion-checkbox (ionChange)="changeInputCheck($event, acceptTerms)"></ion-checkbox>
+              <p class="ion-margin-start p-text">LI E CONCORDO COM OS <a href='terms'>TERMOS DE USO</a></p>
+            </ion-item>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
   </div>
 
 </ion-content>

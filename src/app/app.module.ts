@@ -1,3 +1,4 @@
+import { SkeletonTextModule } from './components/skeleton/skeleton-text/skeleton-text.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -22,13 +23,12 @@ import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { HeaderCustomModule } from './components/header/header-custom/header-custom.module';
 import { ClassesModule } from './modules/classes/class/class.module';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
 }
-
-
 
 @NgModule({
   declarations: [AppComponent],
@@ -58,8 +58,16 @@ export function HttpLoaderFactory(http: HttpClient) {
     //HTTP
     HttpClientModule,
 
+    //Custom Modules
     HeaderCustomModule,
-    ClassesModule
+    ClassesModule,
+    SkeletonTextModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }

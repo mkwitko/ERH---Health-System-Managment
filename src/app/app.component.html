@@ -1,11 +1,31 @@
 <ion-app>
-  <ion-split-pane contentId="menu-content" when="xl" [disabled]="menuBool">
+  <ion-split-pane contentId="menu-content" when="lg" [disabled]="menuBool">
     <ion-menu class="side-menu-gradient" contentId="menu-content">
 
      <ion-header>
        <ion-toolbar color="dark"></ion-toolbar>
      </ion-header>
 
+     <ion-content>
+       <ng-container *ngIf="!userInfo.user"> <!-- While Loading -->
+        <app-skeleton-text></app-skeleton-text>
+       </ng-container>
+
+        <ng-container *ngIf="userInfo.user">
+
+
+          <ng-container *ngIf="userInfo.user.role === 'admin'">
+            <ng-container *ngFor="let a of adminMenu">
+              <ion-list class="menu-items" lines="none">
+                <ion-item button [disabled]="a.disabled" (click)="goTo(a.path)" lines="none" detail="false" routerLinkActive="active">
+                  <ion-icon slot="start" name={{a.icon}}></ion-icon>
+                  <ion-label>{{a.name}}</ion-label>
+                </ion-item>
+              </ion-list>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+     </ion-content>
 
      <ion-footer>
       <ion-toolbar color="danger">

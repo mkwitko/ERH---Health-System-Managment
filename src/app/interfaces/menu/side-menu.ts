@@ -3,4 +3,5 @@ export interface SideMenu {
     icon?: string;
     who?: string;
     path?: string;
+    disabled?: boolean;
 }

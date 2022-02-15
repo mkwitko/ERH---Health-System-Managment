@@ -10,12 +10,17 @@ export class HeaderCustomComponent implements OnInit {
   @Input() color: string;
   @Input() flag: boolean;
   @Input() title: string;
+  @Input() hasMenu: boolean;
 
   constructor()
   {
     if(!this.color) {
       this.color='dark';
     }
+    if(!this.hasMenu){
+      this.hasMenu = true;
+    }
+
   }
 
   ngOnInit() {}

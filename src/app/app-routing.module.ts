@@ -10,11 +10,6 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'home',
-    loadChildren: () => import('./pages/menu/home/home.module').then( m => m.HomePageModule),
-    canActivate: [AuthGuard]
-  },
-  {
     path: 'login',
     loadChildren: () => import('./pages/auth/login/login.module').then( m => m.LoginPageModule),
     canActivate: [LoginGuard]
@@ -24,8 +19,41 @@ const routes: Routes = [
     loadChildren: () => import('./pages/auth/register/register.module').then( m => m.RegisterPageModule),
     canActivate: [LoginGuard]
   },
-
-
+  {
+    path: 'home-admin',
+    loadChildren: () => import('./pages/adminMenu/home/home.module').then( m => m.HomePageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'relatorios',
+    loadChildren: () => import('./pages/adminMenu/relatorios/relatorios.module').then( m => m.RelatoriosPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'usuarios',
+    loadChildren: () => import('./pages/adminMenu/usuarios/usuarios.module').then( m => m.UsuariosPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'funcionarios',
+    loadChildren: () => import('./pages/adminMenu/funcionarios/funcionarios.module').then( m => m.FuncionariosPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'clinica',
+    loadChildren: () => import('./pages/adminMenu/clinica/clinica.module').then( m => m.ClinicaPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'configuracoes',
+    loadChildren: () => import('./pages/adminMenu/configuracoes/configuracoes.module').then( m => m.ConfiguracoesPageModule),
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'pacientes',
+    loadChildren: () => import('./pages/adminMenu/pacientes/pacientes.module').then( m => m.PacientesPageModule),
+    canActivate: [AuthGuard]
+  },
 ];
 
 @NgModule({

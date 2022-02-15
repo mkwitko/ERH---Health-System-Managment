@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { LoadingController, ToastController } from '@ionic/angular';
+import { Injectable, Input } from '@angular/core';
+import { AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { TranslateMessageService } from '../variables-management/translate-message.service';
 
 @Injectable({
@@ -7,12 +7,15 @@ import { TranslateMessageService } from '../variables-management/translate-messa
 })
 export class ScreenService {
 
+  @Input() myFunction;
+
   public loading;
 
   constructor(
     private loadingController: LoadingController,
     private toastController: ToastController,
-    private translate: TranslateMessageService
+    private translate: TranslateMessageService,
+    private alertController: AlertController
   ) { }
 
   public async presentLoading() {
@@ -46,4 +49,5 @@ export class ScreenService {
     });
     toast.present();
   }
+
 }

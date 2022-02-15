@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-skeleton-card',
@@ -7,7 +7,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SkeletonCardComponent implements OnInit {
 
-  constructor() { }
+  @Input() size;
+
+  constructor()
+  {
+    if(!this.size){
+      this.size = '6';
+    }
+  }
 
   ngOnInit() {}
 

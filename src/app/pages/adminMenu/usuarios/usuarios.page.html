@@ -1,0 +1,44 @@
+<app-header-custom
+[title]="'Usuários'"
+></app-header-custom>
+
+<ion-content>
+
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list>
+    <ng-container *ngFor="let item of user.userShow">
+        <ion-item mode="ios" lines="none">
+          <ion-avatar  slot="start">
+            <img *ngIf="item.userPic" src="{{item.userPic}}">
+            <img *ngIf="!item.userPic" src="../../../../assets/img/default-user.png">
+          </ion-avatar>
+          <ion-label>{{item.userName}}
+            <p class="ion-padding-start">{{item.userEmail}}</p>
+          </ion-label>
+
+          <ion-select (ionChange)="change(item)" [(ngModel)]="item.role" okText="Ok" cancelText="Cancelar">
+            <ng-container *ngFor="let a of back.roleOptions">
+              <ion-select-option value="{{a.value}}">{{a.name}}</ion-select-option>
+            </ng-container>
+          </ion-select>
+        </ion-item>
+    </ng-container>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+   <ion-toolbar>
+    <ion-item>
+      <ion-label>{{title}}</ion-label>
+      <ion-select (ionChange)="changeSelect($event)" mode="ios" multiple="true" cancelText="Cancelar" okText="Ok!">
+        <ng-container *ngFor="let item of parameters">
+          <ion-select-option  value="{{item.value}}">{{item.name}}</ion-select-option>
+        </ng-container>
+      </ion-select>
+    </ion-item>
+
+   </ion-toolbar>
+</ion-footer>

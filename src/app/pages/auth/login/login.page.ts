@@ -45,7 +45,7 @@ export class LoginPage implements OnInit {
 
   login(){
     if(this.allow.guardian([this.acceptPrivacy.ref, this.acceptTerms.ref], true) === true){
-      this.authService.callLogin(this.userLogin);
+      this.authService.login(this.userLogin);
     } else {
       this.screen.presentToast('Leia e aceite os termos.');
     }
@@ -56,7 +56,7 @@ export class LoginPage implements OnInit {
   }
 
   send(object){
-    this.authService.callResetPassword(object);
+    this.authService.resetPassword(object);
     this.resetForgotPassword();
   }
 

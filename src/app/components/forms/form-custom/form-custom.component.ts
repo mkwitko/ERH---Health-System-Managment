@@ -16,7 +16,8 @@ export class FormCustomComponent{
   @Input() collection: AngularFirestoreCollection;
   @Input() myFunction;
   @Input() ref;
-  @Input() register;
+  @Input() register: boolean;
+  @Input() registerFunc;
 
   constructor(
     private allow: AllowToPassService,
@@ -44,6 +45,13 @@ export class FormCustomComponent{
           send.logo = '';
         }
 
+        //If register
+        if(this.allow.guardian([
+          this.register], true)) {
+            console.log('True');
+            this.registerFunc(send);
+        }
+
         // Add to Database
         this.crud.callAdd(this.collection, send).then((res) => {
 
@@ -61,7 +69,7 @@ export class FormCustomComponent{
       }
       catch(error)
       {
-        this.screen.presentErrorToast(error);
+        this.screen.presentToast(error);
       }
       finally
       {
