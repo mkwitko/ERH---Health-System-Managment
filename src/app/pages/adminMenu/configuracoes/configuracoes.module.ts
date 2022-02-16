@@ -8,6 +8,7 @@ import { ConfiguracoesPageRoutingModule } from './configuracoes-routing.module';
 
 import { ConfiguracoesPage } from './configuracoes.page';
 import { HeaderCustomModule } from 'src/app/components/header/header-custom/header-custom.module';
+import { CardPathModule } from 'src/app/components/cards/card-path/card-path.module';
 
 @NgModule({
   imports: [
@@ -15,7 +16,8 @@ import { HeaderCustomModule } from 'src/app/components/header/header-custom/head
     FormsModule,
     IonicModule,
     ConfiguracoesPageRoutingModule,
-    HeaderCustomModule
+    HeaderCustomModule,
+    CardPathModule
   ],
   declarations: [ConfiguracoesPage]
 })

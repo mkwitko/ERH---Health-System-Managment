@@ -3,6 +3,6 @@
     <ion-buttons slot="start">
       <ion-back-button [defaultHref]="parameters.url"></ion-back-button>
     </ion-buttons>
-    <ion-title class="ion-text-center">{{parameters.title}}</ion-title>
+    <ion-title *ngIf="parameters.title" class="ion-text-center">{{parameters.title}}</ion-title>
 </ion-toolbar>
 </ion-header>

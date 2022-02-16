@@ -54,6 +54,15 @@ const routes: Routes = [
     loadChildren: () => import('./pages/adminMenu/pacientes/pacientes.module').then( m => m.PacientesPageModule),
     canActivate: [AuthGuard]
   },
+  {
+    path: 'essencial-info',
+    loadChildren: () => import('./pages/adminConfig/essencialInfo/essencial-info/essencial-info.module').then( m => m.EssencialInfoPageModule)
+  },  {
+    path: 'essencial-info-home',
+    loadChildren: () => import('./pages/adminConfig/essencialInfo/essencialInfo-Home/essencial-info-home/essencial-info-home.module').then( m => m.EssencialInfoHomePageModule)
+  },
+
+
 ];
 
 @NgModule({

@@ -77,6 +77,14 @@ export class CrudService {
      return collection.doc(id).delete();
    }
 
+   callDeleteAll(collection: AngularFirestoreCollection){
+     this.deleteAll(collection);
+   }
+
+   private deleteAll(collection: AngularFirestoreCollection){
+     return collection.doc().delete();
+   }
+
    // eslint-disable-next-line @typescript-eslint/member-ordering
    callUploadFileStorage(file, id, folder): Promise<any>{
      return this.uploadFileStorage(file,id,folder);
@@ -94,12 +102,12 @@ export class CrudService {
    }
 
    // eslint-disable-next-line @typescript-eslint/member-ordering
-   callDeleteFileStorage(fileRef){
-     this.deleteFileStorage(fileRef);
+   callDeleteFileStorage(fileRef, path){
+     this.deleteFileStorage(fileRef, path);
    }
 
-   private async deleteFileStorage(fileRef: string){
-    const ref = this.afst.refFromURL(fileRef);
+   private async deleteFileStorage(fileRef, path){
+    const ref = this.afst.ref(path + '/' + fileRef);
     await this.screen.presentLoading();
     try {
       await ref.delete();

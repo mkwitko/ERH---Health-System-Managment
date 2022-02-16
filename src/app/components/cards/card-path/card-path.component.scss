@@ -1,15 +1,15 @@
 ion-card {
-  min-height: 20vh;
-  max-height: 20vh;
+  min-height: 30vh;
+  max-height: 30vh;
   box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
 
   ion-card-title {
-    font-size: 2.2vh;
+    font-size: 2.5vh;
     font-weight: 600;
   }
 
   ion-card-subtitle {
-    font-size: 1.7vh;
+    font-size: 2vh;
   }
 }
 
@@ -19,4 +19,14 @@ ion-card {
 
 .index {
   z-index: 2;
+}
+
+p {
+  display: block;
+}
+
+ion-avatar {
+  img {
+    border-radius: 0 !important;
+  }
 }

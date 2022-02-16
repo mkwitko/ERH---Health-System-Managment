@@ -5,6 +5,7 @@ import { AllowToPassService } from 'src/app/services/allow-to-pass/allow-to-pass
 import { CrudService } from 'src/app/services/firebase/crud/crud.service';
 import { NavigationService } from 'src/app/services/navigation/navigation.service';
 import { ScreenService } from 'src/app/services/screen-effects/screen.service';
+import { UnsubService } from 'src/app/services/unsub/unsub.service';
 
 @Component({
   selector: 'app-form-custom',
@@ -16,15 +17,15 @@ export class FormCustomComponent{
   @Input() collection: AngularFirestoreCollection;
   @Input() myFunction;
   @Input() ref;
-  @Input() register: boolean;
-  @Input() registerFunc;
+  @Input() reset: boolean = false;
 
   constructor(
     private allow: AllowToPassService,
     private screen: ScreenService,
     private nav: NavigationService,
     private crud: CrudService,
-    private variableManagment: InputChangesService
+    private variableManagment: InputChangesService,
+    private unsub: UnsubService
   ){}
 
   async submit(){
@@ -35,36 +36,36 @@ export class FormCustomComponent{
     if(this.canPass()){
       try
       {
+        // try {
+        //   this.delete().then((res => {
+        //     console.log(res);
+        //   }))
+        // } catch (error){
+        //   console.error(error);
+        // }
+
         // Send to database fields
-        const send = this.myFunction(this.fields);
-        console.log(send);
+        const send = this.myFunction(this.fields)
 
         // if has photo
         if(send.logo){
           holdPhoto = send.logo;
           send.logo = '';
         }
-
-        //If register
-        if(this.allow.guardian([
-          this.register], true)) {
-            console.log('True');
-            this.registerFunc(send);
-        }
-
+ 
         // Add to Database
         this.crud.callAdd(this.collection, send).then((res) => {
-
+          console.log(res);
           // Upload System
           if(holdPhoto){
             this.crud.callUploadFileStorage(holdPhoto, res.id, this.ref).then((down) => {
               send.logo = down;
+              this.crud.callUpdate(this.collection, send, res.id);
             });
           }
-
-          // Update To Fill Id + Photo (if needed)
+          // Update To Fill Id
           send.id = res.id;
-          this.crud.callUpdate(this.collection, send, res.id);
+          this.crud.callUpdate(this.collection, send, res.id)
         });
       }
       catch(error)
@@ -80,6 +81,21 @@ export class FormCustomComponent{
     }
   }
 
+  delete(): Promise<any>{
+    if(this.reset === true){
+      const sub = this.crud.callGetAll(this.collection).subscribe(res => {
+          for(const a of res){
+            this.crud.callDelete(this.collection, a.id);
+            this.crud.callDeleteFileStorage(a.id, this.ref);
+            console.log('Deleting...');
+          }
+          this.unsub.unsub([sub]);
+        }
+      )
+    }
+    return;
+  }
+
   canPass(){
     for(const a of this.fields){
       if(this.allow.guardian([a.required], true)){
@@ -93,13 +109,9 @@ export class FormCustomComponent{
     return true;
   }
 
-  upload(object, id, folder){
-    const imageUrl = this.crud.callUploadFileStorage(object, id, folder);
-    return imageUrl;
-  }
-
   pickFile(event, receiver){
     receiver.answer = event.target.files;
+    console.log(receiver.answer);
   }
 
   checkBox(event, object){

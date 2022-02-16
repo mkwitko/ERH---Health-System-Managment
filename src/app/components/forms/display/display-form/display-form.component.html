@@ -1,0 +1,24 @@
+<div class="container">
+  <div class="profile">
+    <ng-container *ngIf="!logo">
+      <ion-avatar>
+        <img [src]="'../../../../assets/img/default-user.png'" />
+      </ion-avatar>
+    </ng-container>
+    
+    <ng-container *ngIf="logo">
+      <ion-avatar>
+        <img [src]="logo" />
+      </ion-avatar>
+    </ng-container>
+    <br><br>
+</div>
+<div class="ion-margin">
+  <ng-container *ngFor="let item of parameters">
+    <ion-item lines="none">
+      <ion-label slot="start" class="ion-text-start">{{item.field}}</ion-label>
+      <ion-label slot="end">{{item.value}}</ion-label>
+    </ion-item>
+  </ng-container>
+</div>
+</div>

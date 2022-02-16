@@ -1,0 +1,17 @@
+<app-header-custom-back [parameters]="parameters"></app-header-custom-back>
+
+<ion-content>
+    <div class="container">    
+        <ng-container *ngIf="!myData || myData.length <= 0">
+            <app-skeleton-text></app-skeleton-text>
+        </ng-container>
+        <ng-container *ngIf="myData.length >= 1">
+            <app-display-form
+            [parameters]="fieldParameters"
+            [logo]="myData[0].logo"
+            ></app-display-form>
+        </ng-container>
+    </div>
+
+    <app-fab-bottom-right [url]="'essencial-info'"></app-fab-bottom-right>
+</ion-content>

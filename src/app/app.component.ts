@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from './services/firebase/auth/auth.service';
 import { CrudService } from './services/firebase/crud/crud.service';
 import { NavigationService } from './services/navigation/navigation.service';
+import { UnsubService } from './services/unsub/unsub.service';
 
 @Component({
   selector: 'app-root',
@@ -75,7 +76,8 @@ export class AppComponent implements OnInit {
     private auth: AuthService,
     private crud: CrudService,
     private changePage: NavigationService,
-    private menuCtrl: MenuControlService
+    private menuCtrl: MenuControlService,
+    private unsub: UnsubService
   )
   {
     this.auth.getAuth().onAuthStateChanged(user => {
@@ -90,11 +92,7 @@ export class AppComponent implements OnInit {
               this.userInfo.allUsers = data;
               this.userInfo.userShow = this.userInfo.allUsers;
             });
-            setTimeout(() => {
-              sub1.unsubscribe();
-              sub2.unsubscribe();
-              console.log('unsubscribed!');
-              }, 2500);
+            this.unsub.unsub([sub1,sub2]);
           }
         });
       }
